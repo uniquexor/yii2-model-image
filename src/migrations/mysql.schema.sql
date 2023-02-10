@@ -4,7 +4,7 @@
 
 CREATE TABLE `images` (
     `id` int unsigned NOT NULL AUTO_INCREMENT,
-    `group` varchar(45) DEFAULT NULL,
+    `group` varchar(255) DEFAULT NULL,
     `name` varchar(255) NOT NULL,
     `extension` varchar(10) NOT NULL,
     `is_temp` tinyint(1) NOT NULL DEFAULT '0',

@@ -1,12 +1,12 @@
 <?php
-    namespace unique\yii2modelimage\images\models;
+    namespace unique\yii2modelimage\models;
 
     use app\components\ImageVersionsManager;
     use app\models\User;
-    use unique\yii2modelimage\images\exceptions\ModelImageException;
-    use unique\yii2modelimage\images\ModelImageModule;
-    use unique\yii2modelimage\images\models\data\File;
-    use unique\yii2modelimage\images\models\data\ImageDimensions;
+    use unique\yii2modelimage\exceptions\ModelImageException;
+    use unique\yii2modelimage\ModelImageModule;
+    use unique\yii2modelimage\models\data\File;
+    use unique\yii2modelimage\models\data\ImageDimensions;
     use Imagine\Filter\Basic\Autorotate;
     use Imagine\Image\ImageInterface;
     use Yii;

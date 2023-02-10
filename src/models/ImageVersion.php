@@ -1,8 +1,8 @@
 <?php
-    namespace unique\yii2modelimage\images\models;
+    namespace unique\yii2modelimage\models;
 
-    use unique\yii2modelimage\images\components\ImageResizer;
-    use unique\yii2modelimage\images\models\data\ImageDimensions;
+    use unique\yii2modelimage\components\ImageResizer;
+    use unique\yii2modelimage\models\data\ImageDimensions;
     use Imagine\Image\ImageInterface;
     use Yii;
 

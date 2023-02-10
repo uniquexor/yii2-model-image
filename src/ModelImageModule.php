@@ -1,7 +1,7 @@
 <?php
-    namespace unique\yii2modelimage\images;
+    namespace unique\yii2modelimage;
 
-    use unique\yii2modelimage\images\models\Image;
+    use unique\yii2modelimage\models\Image;
     use Yii;
     use yii\base\BootstrapInterface;
     use yii\base\Module;

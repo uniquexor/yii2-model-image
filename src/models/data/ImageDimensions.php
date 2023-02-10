@@ -1,5 +1,5 @@
 <?php
-    namespace unique\yii2modelimage\images\models\data;
+    namespace unique\yii2modelimage\models\data;
 
     class ImageDimensions {
 

@@ -1,8 +1,8 @@
 <?php
-    namespace unique\yii2modelimage\images\behaviors;
+    namespace unique\yii2modelimage\behaviors;
 
-    use unique\yii2modelimage\images\ModelImageModule;
-    use unique\yii2modelimage\images\models\Image;
+    use unique\yii2modelimage\ModelImageModule;
+    use unique\yii2modelimage\models\Image;
     use yii\base\Behavior;
     use yii\base\Event;
     use yii\db\ActiveRecord;

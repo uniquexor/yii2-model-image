@@ -1,7 +1,7 @@
 <?php
-    namespace unique\yii2modelimage\images\components;
+    namespace unique\yii2modelimage\components;
 
-    use unique\yii2modelimage\images\models\data\ImageDimensions;
+    use unique\yii2modelimage\models\data\ImageDimensions;
     use Imagine\Exception\InvalidArgumentException;
     use Imagine\Image\AbstractImage;
     use Imagine\Image\Box;
