@@ -30,7 +30,7 @@
                     $existing_file_name = $base_path . $image->id . ( $version ? '_' . $version->version : '' ) . '.' . $image->extension;
                     if ( file_exists( $existing_file_name ) ) {
 
-                        $new_file_name = $base_path . '_' . $image->id . '_' . $unique_id . ( $version ? '_' . $version->version : '' ) . '.' . $image->extension;
+                        $new_file_name = $base_path . $image->id . '_' . $unique_id . ( $version ? '_' . $version->version : '' ) . '.' . $image->extension;
                         if ( !rename( $existing_file_name, $new_file_name ) ) {
 
                             throw new \Exception( 'Failed to rename `' . $existing_file_name . '` to `' . $new_file_name . '`' );
@@ -42,6 +42,30 @@
 
         public function safeDown() {
 
+            $module = \unique\yii2modelimage\ModelImageModule::getInstance();
+            if ( $module === null ) {
+
+                throw new \Exception( 'ModelImageModule must be loaded before migrating.' );
+            }
+
+            $query = \unique\yii2modelimage\models\Image::find();
+
+            foreach ( $query->each() as $image ) {
+
+                $base_path = $module->getImagePath( false, false ) . '/';
+                foreach ( array_merge( [ null ], $image->versions ) as $version ) {
+
+                    $existing_file_name = $base_path . $image->id . '_' . $image->unique_id . ( $version ? '_' . $version->version : '' ) . '.' . $image->extension;
+                    if ( file_exists( $existing_file_name ) ) {
+
+                        $new_file_name = $base_path . $image->id . ( $version ? '_' . $version->version : '' ) . '.' . $image->extension;
+                        if ( !rename( $existing_file_name, $new_file_name ) ) {
+
+                            throw new \Exception( 'Failed to rename `' . $existing_file_name . '` to `' . $new_file_name . '`' );
+                        }
+                    }
+                }
+            }
             $this->dropColumn( 'images', 'unique_id' );
         }
     }
