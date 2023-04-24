@@ -37,6 +37,10 @@ Add the following to your config file:
 ```php
 <?php
     [
+        'bootstrap' => [ 
+            // ...,
+            'images' 
+        ],
         // ...
         'modules' => [
             'images' => [
