@@ -185,4 +185,11 @@
 
             return $this->image->mime_type;
         }
+
+        public function fields() {
+
+            return array_merge( parent::fields(), [
+                'url' => fn( self $model ) => $model->getImagePath( true ),
+            ] );
+        }
     }

@@ -1,8 +1,6 @@
 <?php
     namespace unique\yii2modelimage\models;
 
-    use app\components\ImageVersionsManager;
-    use app\models\User;
     use unique\yii2modelimage\exceptions\ModelImageException;
     use unique\yii2modelimage\ModelImageModule;
     use unique\yii2modelimage\models\data\File;
@@ -17,6 +15,7 @@
      *
      * @property int $id
      * @property string $group
+     * @property string $unique_id
      * @property string $name
      * @property string $extension
      * @property bool $is_temp
@@ -132,6 +131,7 @@
             $image_model = new static();
             $image_model->group = $group;
             $image_model->is_temp = $is_temp;
+            $image_model->unique_id = $image_model->generateRandomKey();
             $image_model->setNameAndExtension( $file->name );
             $image_model->mime_type = $file->mime_type;
             $image_model->width = $size->getWidth();
@@ -229,13 +229,18 @@
                     if ( file_exists( $base_path . '_' . $v . '.' . $this->extension ) ) {
 
                         return $module->getImagePath( $as_url, false ) . ( $as_url ? DIRECTORY_SEPARATOR : '/' ) .
-                            $this->id . '_' . $v . '.' . $this->extension;
+                            $this->id . '_' . $this->unique_id . '_' . $v . '.' . $this->extension;
                     }
                 }
             }
 
             return $module->getImagePath( $as_url, false ) . ( $as_url ? DIRECTORY_SEPARATOR : '/' ) .
-                $this->id . ( $version && !is_array( $version ) ? '_' . $version : '' ) . '.' . $this->extension;
+                $this->id . '_' . $this->unique_id . ( $version && !is_array( $version ) ? '_' . $version : '' ) . '.' . $this->extension;
+        }
+
+        public function generateRandomKey() {
+
+            return Yii::$app->security->generateRandomString();
         }
 
         /**
@@ -350,5 +355,12 @@
                 ->save( $path );
 
             return $this->generateVersions( $versions, $image );
+        }
+
+        public function fields() {
+
+            return array_merge( parent::fields(), [
+                'url' => fn( self $model ) => $model->getImagePath( null, true ),
+            ] );
         }
     }

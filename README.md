@@ -22,6 +22,11 @@ or add
 
 to the require section of your `composer.json` file.
 
+To create DB tables run migration file:
+
+```
+./yii migrate --migrationPath="vendor/unique/yii2-model-image/src/migrations"
+```
 
 Usage
 -----
@@ -30,24 +35,31 @@ In order to use the behavior, you first need to load the module. Module can only
 Add the following to your config file:
 
 ```php
-<?
-    'images' => [
-        'class' => \unique\yii2modelimage\ModelImageModule::class,
-        
-        // Defines an alias friendly path, where to store all the images
-        'images_path' => '@app/www/images',
-        
-        // specify an Image class to use for generating images
-        // should either extend the default class or implement methods needed
-        'image_class' => \unique\yii2modelimage\models\Image::class,
-        
-        // Should list ImageDimensions for all image version groups, i.e.:
-        // 'user_profile_photo' => [
-        //     'thumb_small' => ( new ImageDimensions( 'thumb_small', null, 80 ) )->asResized()->setQuality( 80 ),
-        //     'thumb_large' => ( new ImageDimensions( 'thumb_large', null, 800 ) )->asResized()->setQuality( 80 ),
-        // ],    
-        'group_versions' => [],
-    ],
+<?php
+    [
+        // ...
+        'modules' => [
+            'images' => [
+                'class' => \unique\yii2modelimage\ModelImageModule::class,
+                
+                // Defines an alias friendly path, where to store all the images
+                'images_path' => '@app/www/images',
+                
+                // specify an Image class to use for generating images
+                // should either extend the default class or implement methods needed
+                'image_class' => \unique\yii2modelimage\models\Image::class,
+                
+                // Should list ImageDimensions for all image version groups, i.e.:    
+                'group_versions' => [
+                    // 'user_profile_photo' => [
+                    //     'thumb_small' => ( new ImageDimensions( 'thumb_small', null, 80 ) )->asResized()->setQuality( 80 ),
+                    //     'thumb_large' => ( new ImageDimensions( 'thumb_large', null, 800 ) )->asResized()->setQuality( 80 ),
+                    // ],
+                ],
+            ],
+            // ...
+        ]   
+    ]
 ?>
 ```
 
