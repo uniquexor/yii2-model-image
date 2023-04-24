@@ -11,7 +11,7 @@
                 throw new \Exception( 'ModelImageModule must be loaded before migrating.' );
             }
 
-            $this->addColumn( 'images', 'unique_id', 'string not null before `name`' );
+            $this->addColumn( 'images', 'unique_id', 'string not null after `group`' );
 
             $query = \unique\yii2modelimage\models\Image::find();
 
