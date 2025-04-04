@@ -2,6 +2,7 @@
     namespace unique\yii2modelimage\models;
 
     use unique\yii2modelimage\components\ImageResizer;
+    use unique\yii2modelimage\ModelImageModule;
     use unique\yii2modelimage\models\data\ImageDimensions;
     use Imagine\Image\ImageInterface;
     use Yii;
@@ -40,7 +41,7 @@
                 [ [ 'image_id', 'version', 'width', 'height', 'size' ], 'required' ],
                 [ [ 'image_id', 'width', 'height', 'size' ], 'integer' ],
                 [ [ 'version' ], 'string', 'max' => 45 ],
-                [ [ 'image_id' ], 'exist', 'skipOnError' => true, 'targetClass' => Image::class, 'targetAttribute' => [ 'image_id' => 'id' ] ],
+                [ [ 'image_id' ], 'exist', 'skipOnError' => true, 'targetClass' => ModelImageModule::getInstance()->image_class, 'targetAttribute' => [ 'image_id' => 'id' ] ],
             ];
         }
 
@@ -66,7 +67,7 @@
          */
         public function getImage() {
 
-            return $this->hasOne( Image::class, [ 'id' => 'image_id' ] );
+            return $this->hasOne( ModelImageModule::getInstance()->image_class, [ 'id' => 'image_id' ] );
         }
 
         /**
@@ -142,6 +143,7 @@
         /**
          * Deletes an image version only from the disk.
          * @return bool
+         * @throws \Exception
          */
         public function deleteImage() {
 
@@ -186,6 +188,9 @@
             return $this->image->mime_type;
         }
 
+        /**
+         * @inheritdoc
+         */
         public function fields() {
 
             return array_merge( parent::fields(), [
