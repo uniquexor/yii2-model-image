@@ -1,6 +1,7 @@
 <?php
     namespace unique\yii2modelimage\models;
 
+    use unique\yii2modelimage\components\ImageResizer;
     use unique\yii2modelimage\exceptions\ModelImageException;
     use unique\yii2modelimage\ModelImageModule;
     use unique\yii2modelimage\models\data\File;
@@ -19,9 +20,7 @@
      * @property string $name
      * @property string $extension
      * @property bool $is_temp
-     * @property int $user_id
      * @property int $uploaded_at
-     * @property int $is_default_fb
      * @property string|null $mime_type
      * @property int|null $width Original image width
      * @property int|null $height Original image height
@@ -187,6 +186,33 @@
             );
 
             return static::createFromFile( $group, $file, $is_temp );
+        }
+
+        /**
+         * Regenerate original image with the given dimensions.
+         * This will overwrite existing file and update this model to DB.
+         * @param ImageDimensions $dimensions
+         * @return void
+         * @throws \Exception
+         */
+        public function regenerateOriginal( ImageDimensions $dimensions ): void {
+
+            $file_name = $this->getImagePath();
+
+            $img = \yii\imagine\Image::getImagine()->open( $file_name );
+            $resizer = new ImageResizer( $img );
+            $img_resized = $resizer->generate( $dimensions );
+
+            $img_resized->save(
+                $file_name,
+                [ 'quality' => $dimensions->quality ]
+            );
+
+            $resized_size = $img_resized->getSize();
+            $this->width = $resized_size->getWidth();
+            $this->height = $resized_size->getHeight();
+            $this->size = filesize( $file_name );
+            $this->save( false );
         }
 
         /**
